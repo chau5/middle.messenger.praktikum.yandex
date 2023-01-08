@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/14597e20-a13a-4e12-9baa-9de5a05bd954/deploy-status)](https://app.netlify.com/sites/middle-messenger-chausme/deploys)
 
-[Messenger app](https://middle-messenger-chausme.netlify.app) built on top of existing API as per [Figma mockups](https://www.figma.com/file/sBhmIq6yUZIqBLoANYJkTh/Middle-Front-end-Chat-App)
+[Messenger app](https://middle-messenger-chausme.netlify.app) built on top of [existing API](https://ya-praktikum.tech/api/v2/swagger) as per [Figma mockups](https://www.figma.com/file/sBhmIq6yUZIqBLoANYJkTh/Middle-Front-end-Chat-App)
 
 ## Usage
 
