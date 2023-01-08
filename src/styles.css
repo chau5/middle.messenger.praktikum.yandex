@@ -59,6 +59,50 @@ body {
         top: 0;
         z-index: 100;
     }
+
+    &[data-bg-color="red"] {
+        background-color: var(--c-red);
+    }
+
+    &[data-bg-color="pink"] {
+        background-color: var(--c-pink);
+    }
+
+    &[data-bg-color="orange"] {
+        background-color: var(--c-orange);
+    }
+
+    &[data-bg-color="orange-light"] {
+        background-color: var(--c-orange-light);
+    }
+
+    &[data-bg-color="cyan"] {
+        background-color: var(--c-cyan);
+    }
+
+    &[data-bg-color="cyan-light"] {
+        background-color: var(--c-cyan-light);
+    }
+
+    &[data-bg-color="purple"] {
+        background-color: var(--c-purple);
+    }
+
+    &[data-bg-color="purple-light"] {
+        background-color: var(--c-purple-light);
+    }
+
+    &[data-bg-color="green"] {
+        background-color: var(--c-green);
+    }
+
+    &[data-bg-color="green-light"] {
+        background-color: var(--c-green-light);
+    }
+
+    &[data-bg-color="gray-light"] {
+        background-color: var(--c-gray-light);
+    }
 }
 
 main {

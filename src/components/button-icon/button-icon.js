@@ -1,4 +1,4 @@
-import template from './buttonIcon.hbs';
+import template from './button-icon.hbs';
 import hamburger from '~/static/icons/hamburger.svg';
 import attachment from '~/static/icons/attachment.svg';
 import arrow from '~/static/icons/arrow.svg';

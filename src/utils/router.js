@@ -16,7 +16,7 @@ export default class Router {
         const template = this.getTemplate(path);
         const root = document.getElementById('root');
         root.innerHTML = template.data;
-        this.updateBgColor(template);
+        this.updateBgColor(template.name);
         if (updatePath) {
             window.history.pushState({}, '', `${this.#baseUrl}/${path}`);
         }
@@ -32,7 +32,7 @@ export default class Router {
             template = 'signUp';
         }
         return !this.routesData[template]
-            ? { name: 'page404', data: this.routesData['page404'] }
+            ? { name: 'page404', data: this.routesData.page404 }
             : { name: template, data: this.routesData[template] };
     }
 
@@ -69,9 +69,21 @@ export default class Router {
     }
 
     // Little helper to update body background
-    updateBgColor(template) {
-        if (template.name === 'home') {
-            // @todo
+    updateBgColor(templateName) {
+        const { body } = document;
+        let color = 'purple';
+        if (templateName === 'signUp') {
+            color = 'cyan';
         }
+        if (templateName === 'chats') {
+            color = 'orange';
+        }
+        if (templateName === 'page404') {
+            color = 'pink';
+        }
+        if (templateName === 'page500') {
+            color = 'red';
+        }
+        body.dataset.bgColor = color;
     }
 }

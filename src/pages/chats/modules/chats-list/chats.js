@@ -1,7 +1,7 @@
 import chat from './components/chat';
 import avatar from '~/src/components/avatar';
 import searchInput from './components/search-input';
-import buttonIcon from '~/src/components/button-icon/buttonIcon';
+import buttonIcon from '~/src/components/button-icon';
 import template from './chats.hbs';
 import './chats.css';
 

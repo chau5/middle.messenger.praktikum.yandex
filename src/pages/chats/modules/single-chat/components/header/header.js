@@ -1,4 +1,4 @@
-import buttonIcon from '~/src/components/button-icon/buttonIcon';
+import buttonIcon from '~/src/components/button-icon';
 import template from './header.hbs';
 
 export default (props = {}) =>
