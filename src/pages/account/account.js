@@ -1,3 +1,4 @@
+import avatar from '~/src/components/avatar';
 import buttonIcon from '~/src/components/button-icon/buttonIcon';
 import button from '~/src/components/button/button';
 import inputWLabel from '~/src/components/input-w-label';
@@ -6,7 +7,12 @@ import * as classes from './account.module.css';
 
 export default (
     props = {
-        avatar: 'https://via.placeholder.com/120',
+        displayName: 'Jack J',
+        avatar: avatar({
+            url: 'https://via.placeholder.com/120',
+            size: 'lg',
+            styles: 'mb-2',
+        }),
         buttonBack: buttonIcon({
             title: 'Back to chats',
             id: 'chats',

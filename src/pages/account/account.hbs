@@ -2,11 +2,7 @@
     <div class="{{{classes.button-back}}}">{{{props.buttonBack}}}</div>
     <div class="inner d-flex flex-column h-100">
         <form class="h-100 d-flex flex-column align-items-center" action="#">
-            <div class="window avatar avatar-lg p-0 shrink-0 mb-2">
-                <div class="inner">
-                    <img src="{{{props.avatar}}}" alt="" />
-                </div>
-            </div>
+            {{{props.avatar}}}
             <h2 class="font-400 mb-4">{{{props.displayName}}}</h2>
             <div class="fields w-100 mb-3">
                 {{#each props.inputs}}

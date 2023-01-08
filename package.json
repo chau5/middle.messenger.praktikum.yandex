@@ -4,16 +4,16 @@
     "description": "",
     "source": "src/index.html",
     "scripts": {
-        "start": "node server.js",
         "dev": "parcel",
         "build": "parcel build",
+        "start": "npm run build && node server.js",
         "eslint": "npx eslint src/",
         "stylelint": "npx stylelint \"src/**/*.css\" \"!src/reset.css\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "type": "module",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "eslint": "^8.30.0",
         "eslint-config-airbnb-base": "^15.0.0",

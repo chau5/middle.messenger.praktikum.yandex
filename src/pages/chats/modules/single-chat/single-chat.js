@@ -1,5 +1,5 @@
+import avatar from '~/src/components/avatar';
 import header from './components/header';
-import empty from './components/empty';
 import message from './components/message';
 import messageImage from './components/message-image';
 import messageSticker from './components/message-sticker';
@@ -16,7 +16,10 @@ const data = {
 export default (
     props = {
         header: header({
-            avatar: 'https://via.placeholder.com/60',
+            avatar: avatar({
+                url: 'https://via.placeholder.com/60',
+                size: 'sm',
+            }),
             title: data.title,
         }),
         date: date({
