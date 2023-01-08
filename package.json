@@ -13,9 +13,6 @@
     },
     "author": "",
     "type": "module",
-    "engines": {
-        "node": ">= 16"
-    },
     "license": "ISC",
     "devDependencies": {
         "eslint": "^8.30.0",
