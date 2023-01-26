@@ -1,47 +1,3 @@
-/** reset styles ***/
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-}
-
-a {
-    text-decoration: none;
-    color: initial;
-}
-
-ol,
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-input,
-textarea,
-button {
-    border: none;
-    outline: none;
-    font-family: inherit;
-    font-size: inherit;
-    background-color: inherit;
-}
-
-p {
-    margin: 0 0 16px 0;
-}
-
 body {
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-size: 16px;
@@ -103,6 +59,10 @@ body {
     &[data-bg-color="gray-light"] {
         background-color: var(--c-gray-light);
     }
+}
+
+p {
+    margin: 0 0 16px;
 }
 
 main {
@@ -180,8 +140,19 @@ h2 {
         }
     }
 
+    .inner {
+        width: 100%;
+        position: relative;
+        z-index: 1;
+
+        &-auto {
+            width: auto;
+        }
+    }
+
     &.pad {
         cursor: pointer;
+
         &:active {
             &::before {
                 top: 6px;
@@ -224,6 +195,9 @@ h2 {
     }
 
     &.button {
+        width: 200px;
+        padding: 10px;
+
         &:hover {
             &::before {
                 filter: brightness(115%);
@@ -235,15 +209,20 @@ h2 {
         position: relative;
         width: 100%;
         padding: 0;
+
+        &.error {
+            &::before {
+                background-color: var(--c-red-light);
+            }
+
+            input {
+                color: var(--c-red);
+            }
+        }
     }
 
     &.input-search {
         padding-left: 30px;
-    }
-
-    &.button {
-        width: 200px;
-        padding: 10px;
     }
 
     &.button-icon {
@@ -258,6 +237,18 @@ h2 {
     &.bg-pink {
         &::before {
             background-color: var(--c-pink);
+        }
+    }
+
+    &.bg-red {
+        &::before {
+            background-color: var(--c-red);
+        }
+    }
+
+    &.bg-red-light {
+        &::before {
+            background-color: var(--c-red-light);
         }
     }
 
@@ -314,16 +305,6 @@ h2 {
             background-color: var(--c-cyan);
         }
     }
-
-    .inner {
-        width: 100%;
-        position: relative;
-        z-index: 1;
-
-        &-auto {
-            width: auto;
-        }
-    }
 }
 
 .input {
@@ -338,8 +319,26 @@ h2 {
     }
 }
 
+.validation-message {
+    font-size: 12px;
+    margin: 8px 0 0 4px;
+}
+
+.absolute {
+    position: absolute;
+}
+
 .button {
     cursor: pointer;
+
+    &[disabled] {
+        cursor: default;
+        pointer-events: none;
+
+        &::before {
+            background-color: var(--c-gray);
+        }
+    }
 }
 
 .text-black {
@@ -497,7 +496,7 @@ h2 {
 }
 
 .pt-1 {
-    padding-top: 8px2;
+    padding-top: 8px;
 }
 
 .py-2 {
@@ -598,10 +597,12 @@ h2 {
 .avatar {
     height: 60px;
     width: 60px;
+
     &-sm {
         width: 40px;
         height: 40px;
     }
+
     &-lg {
         width: 120px;
         height: 120px;

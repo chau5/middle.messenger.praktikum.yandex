@@ -9,6 +9,25 @@
 -   `npm run dev` - start Parcel dev server at `http://localhost:1234`
 -   `npm build` - create Parcel build at `./dist`
 -   `npm run start` - create Parcel build and start Express server at `http://localhost:3000`
+-   `npm run tswatch` - start TypeScript compiler with `--watch` parameter
+-   `npm run eslint` - run ESLint with `--quite` parameter
+-   `npm run stylelint` - run Stylelint
+
+## Sprint 2
+
+### Pull request - TBC
+
+#### Updates
+
+-   Refactored to TypeScript with basic types
+-   Implemented Event Bus class and basic Block component
+-   Rebuilt existing simple components as classes based on Block component
+-   Refactored some components and modules, added a few new ones
+-   Updated ESLInt setup to make it work with TypeScript and fixed JS code
+-   Added Stylelint and fixed CSS rules
+-   Implemented submit events for 3 x forms
+-   Added validation for 3 x forms and different field types
+-   Implemented HTTPTransport as a simple Fetch API alternative
 
 ## Sprint 1
 

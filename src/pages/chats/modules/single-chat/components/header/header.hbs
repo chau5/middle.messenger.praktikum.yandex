@@ -1,9 +1,11 @@
-<header class="window bg-purple-light mb-3">
-    <div class="inner d-flex justify-content-between">
-        <div class="title d-flex align-items-center">
-            {{{props.avatar}}}
-            <p class="font-600 mb-0 ml-2">{{{props.title}}}</p>
-        </div>
-        {{{buttonIcon}}}
+<div class="inner d-flex justify-content-between">
+    <div class="title d-flex align-items-center">
+        {{#if avatar}}
+            {{{avatar}}}
+        {{else}}
+            <div class="window avatar avatar-sm p-0 shrink-0 sm"></div>
+        {{/if}}
+        <p class="font-600 mb-0 ml-2">{{{title}}}</p>
     </div>
-</header>
+    {{{buttonIcon}}}
+</div>

@@ -3,15 +3,22 @@
         "browser": true,
         "es2021": true
     },
-    "extends": ["airbnb-base", "prettier"],
+    "extends": ["airbnb-base", "prettier", "plugin:@typescript-eslint/recommended"],
     "overrides": [],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "plugins": ["@typescript-eslint"],
     "rules": {
         "import/no-unresolved": "warn",
         "import/extensions": "warn",
-        "class-methods-use-this": "warn"
+        "class-methods-use-this": "warn",
+        "no-param-reassign": "warn",
+        "@typescript-eslint/no-this-alias": "warn",
+        "@typescript-eslint/no-empty-function": "warn",
+        "no-shadow": "off", // see https://stackoverflow.com/a/63961972
+        "@typescript-eslint/no-shadow": ["error"]
     }
 }

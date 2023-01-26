@@ -1,23 +1,6 @@
-<div class="window w-fixed lg account bg-cyan">
-    <div class="{{{classes.button-back}}}">{{{props.buttonBack}}}</div>
-    <div class="inner d-flex flex-column h-100">
-        <form class="h-100 d-flex flex-column align-items-center" action="#">
-            {{{props.avatar}}}
-            <h2 class="font-400 mb-4">{{{props.displayName}}}</h2>
-            <div class="fields w-100 mb-3">
-                {{#each props.inputs}}
-                    <div class="mb-2">
-                        {{{this}}}
-                    </div>
-                {{/each}}
-            </div>
-            <div class="actions">
-                {{#each props.buttons}}
-                    <div class="mb-2">
-                        {{{this}}}
-                    </div>
-                {{/each}}
-            </div>
-        </form>
-    </div>
+<div class="{{{classes.button-back}}}">
+    {{{buttonBack}}}
+</div>
+<div class="inner d-flex flex-column h-100">
+    {{{form}}}
 </div>

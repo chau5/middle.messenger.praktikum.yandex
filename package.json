@@ -1,38 +1,48 @@
 {
     "name": "middle-messenger",
-    "version": "1.0.0",
-    "description": "",
+    "version": "0.33.0-alpha.0",
+    "description": "Messenger app based on existing API",
     "source": "src/index.html",
     "scripts": {
         "dev": "parcel",
         "build": "parcel build",
         "start": "npm run build && node server.js",
-        "eslint": "npx eslint src/",
+        "tswatch": "tsc --watch",
+        "eslint": "npx eslint src/ --ext .js --quiet --ext .ts --quiet",
         "stylelint": "npx stylelint \"src/**/*.css\" \"!src/reset.css\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chausme/middle-messenger.git"
+    },
+    "author": "chausme",
     "type": "module",
     "license": "MIT",
     "devDependencies": {
-        "eslint": "^8.30.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-import": "^2.26.0",
-        "express": "^4.18.2",
-        "parcel": "^2.8.2",
-        "parcel-transformer-hbs": "^1.0.4",
-        "postcss": "^8.4.20",
-        "postcss-import": "^15.1.0",
-        "postcss-nested": "^6.0.0",
-        "postcss-simple-vars": "^7.0.1",
+        "@types/uuid": "9.0.0",
+        "@typescript-eslint/eslint-plugin": "5.48.1",
+        "@typescript-eslint/parser": "5.48.1",
+        "eslint": "8.30.0",
+        "eslint-config-airbnb-base": "15.0.0",
+        "eslint-config-prettier": "8.5.0",
+        "eslint-plugin-import": "2.26.0",
+        "express": "4.18.2",
+        "parcel": "2.8.2",
+        "parcel-transformer-hbs": "1.0.4",
+        "postcss": "8.4.20",
+        "postcss-import": "15.1.0",
+        "postcss-nested": "6.0.0",
+        "postcss-simple-vars": "7.0.1",
         "prettier": "2.8.1",
-        "process": "^0.11.10",
-        "stylelint": "^14.16.1",
-        "stylelint-config-prettier": "^9.0.4",
-        "stylelint-config-standard": "^29.0.0"
+        "process": "0.11.10",
+        "stylelint": "14.16.1",
+        "stylelint-config-prettier": "9.0.4",
+        "stylelint-config-standard": "29.0.0",
+        "typescript": "4.9.4"
     },
     "dependencies": {
-        "handlebars": "^4.7.7"
+        "handlebars": "4.7.7",
+        "uuid": "9.0.0"
     }
 }

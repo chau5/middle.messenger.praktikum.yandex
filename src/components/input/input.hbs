@@ -1,11 +1,10 @@
-<div class="input-wrap window p-0/5 sm bg-gray-light">
-    <input
-        type="{{{props.type}}}"
-        class="input"
-        name="{{{props.id}}}"
-        id="{{{props.id}}}"
-        value="{{{props.value}}}"
-        placeholder="{{{props.title}}}"
-        {{#if props.disabled}} disabled="disabled"{{/if}}
-    />
-</div>
+<input
+    type="{{type}}"
+    class="input"
+    name="{{id}}"
+    id="{{id}}"
+    value="{{value}}"
+    placeholder="{{title}}"
+    {{#if disabled}} disabled="disabled"{{/if}}
+/>
+

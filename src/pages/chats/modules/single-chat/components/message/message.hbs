@@ -1,12 +1,10 @@
-<div class="window message mw-fit w-50 mb-2/5 d-flex p-2 pb-4 {{#if props.own}}{{{classes.message-own}}} bg-cyan-light{{else}}bg-green-light{{/if}}">
-    <div class="inner">
-        <div class="content">
-            {{{props.content}}}
-        </div>
-        <div class="window xs p-0/33 bg-purple {{{classes.datetime}}}">
-            <div class="inner text-sm text-white">
-                {{{props.datetime}}}
-            </div>
+<div class="inner">
+    <div class="content">
+        {{{content}}}
+    </div>
+    <div class="window xs p-0/33 bg-purple absolute {{{classes.datetime}}}">
+        <div class="inner text-sm text-white">
+            {{{datetime}}}
         </div>
     </div>
 </div>

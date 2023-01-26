@@ -1,12 +1,12 @@
-<div class="window lg p-2/5 single-chat bg-orange-light d-flex h-100 {{{classes.window}}}">
-    <div class="inner d-flex flex-column">
-        {{{props.header}}}
-        <div class="messages d-flex flex-column overflow-y-scroll h-100 mb-3 pr-2">
-            {{{props.date}}}
-            {{#each props.messages}}
-                {{{this.message}}}
-            {{/each}}
-        </div>
-        {{{props.footer}}}
+<div class="inner d-flex flex-column">
+    {{{header}}}
+    <div class="messages d-flex flex-column overflow-y-scroll h-100 mb-3 pr-2">
+        {{{datetime}}}
+        {{{message_1}}}
+        {{{message_2}}}
+        {{{message_3}}}
+        {{{message_4}}}
+        {{{message_5}}}
     </div>
+    {{{form}}}
 </div>

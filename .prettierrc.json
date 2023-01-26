@@ -35,6 +35,10 @@
         {
             "files": "*.hbs",
             "options": { "parser": "glimmer", "singleQuote": false }
+        },
+        {
+            "files": "*.ts",
+            "options": { "parser": "typescript" }
         }
     ]
 }
