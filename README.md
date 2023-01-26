@@ -12,7 +12,7 @@
 
 ## Sprint 1
 
-### Pull request - TBC
+### Pull request - https://github.com/chau5/middle.messenger.praktikum.yandex/pull/6
 
 -   There is no own messages sent/read output
 -   There are no pop-ups implemented including Account password update functionality
