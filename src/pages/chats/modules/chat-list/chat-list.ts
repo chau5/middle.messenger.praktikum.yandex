@@ -1,11 +1,13 @@
 import Block from '~/src/utils/block';
 import Chat from './components/chat';
 import Avatar from '~/src/components/avatar';
-import InputSearch from './components/input-search';
 import ButtonIcon from '~/src/components/button-icon';
 import router from '~/src/index';
 import template from './chat-list.hbs';
-import imageAvatar from '~/static/images/60.png';
+import { ChatApiProps } from '~/src/utils/prop-types';
+import store, { StoreEvents } from '~/src/utils/store';
+import { getChatDetails } from '~/src/utils/helpers';
+import { MessagesController } from '~/src/controllers/messages-controller';
 import './chat-list.css';
 
 export default class ChatList extends Block {
@@ -13,98 +15,76 @@ export default class ChatList extends Block {
         super({}, 'div');
 
         this.element.classList.add('window', 'lg', 'p-2/5', 'chats', 'bg-pink', 'd-flex', 'h-100');
+        store.on(StoreEvents.Updated, () => {
+            const chats = store.getState()?.chats;
+            this.setProps({ chats });
+        });
     }
 
     init() {
-        this.children.buttonIcon = new ButtonIcon({
+        this.children.buttonAccount = new ButtonIcon({
             title: 'Account',
-            id: 'account',
+            id: 'settings',
             icon: 'hamburger',
-            styles: ['mr-1/5', 'bg-green'],
+            css: ['mr-1/5', 'bg-green'],
             settings: {
                 withInternalID: true,
             },
             events: {
                 click(e) {
                     e.preventDefault();
-                    router.load('account', true);
+                    router.load('settings');
                 },
             },
         });
-        this.children.inputSearch = new InputSearch();
-        this.children.chat_1 = new Chat({
-            avatar: new Avatar({
-                url: imageAvatar,
-                size: 'md',
-            }),
-            title: 'Jake',
-            lastMessage:
-                'Lorem ipsum dolor sit amet, consectetur adipiscingelit. Nam mollis efficitur commodo. Cras venenatis...',
-            datetime: '2:14pm',
-            unread: 2,
+        this.children.buttonAddChat = new ButtonIcon({
+            title: 'Add Chat',
+            id: 'add-chat',
+            icon: 'hamburger',
+            css: ['ml-1/5', 'bg-orange'],
+            action: 'add-chat',
+            settings: {
+                withInternalID: true,
+            },
+            events: {
+                click(e) {
+                    e.preventDefault();
+                    console.log('add chat');
+                },
+            },
         });
-        this.children.chat_2 = new Chat({
-            title: 'Kate',
-            avatar: new Avatar({
-                size: 'md',
-            }),
-            lastMessage: 'Curabitur posuere ipsum nec orc!',
-            own: true,
-            datetime: '10:10am',
-            unread: 1,
+        this.children.chats = [];
+    }
+
+    componentDidUpdate(): boolean {
+        const chats = store?.getState()?.chats;
+        if (!chats) {
+            return false;
+        }
+        this.children.chats = [];
+        chats.forEach((chat: ChatApiProps) => {
+            const chatDetails = getChatDetails(chat);
+            this.children.chats.push(
+                new Chat({
+                    ...chatDetails,
+                    id: chat.id,
+                    title: chat.title,
+                    unread: chat.unread_count ? chat.unread_count : 99, // keep for demoing purposes
+                    avatar: new Avatar({
+                        size: 'md',
+                    }),
+                    events: {
+                        async click(e) {
+                            e.preventDefault();
+                            const messages = new MessagesController();
+                            await messages.loadMessages();
+                            console.log(`load chat ID: ${e.currentTarget?.dataset?.id}`);
+                        },
+                    },
+                })
+            );
         });
-        this.children.chat_3 = new Chat({
-            title: 'English Club',
-            avatar: new Avatar({
-                url: imageAvatar,
-                size: 'md',
-            }),
-            lastMessageSticker: true,
-            datetime: 'Sun',
-        });
-        this.children.chat_4 = new Chat({
-            title: 'Jerry',
-            avatar: new Avatar({
-                size: 'md',
-            }),
-            lastMessage:
-                'Donec porta massa vel scelerisque vulputate. Aenean lectus orci, cursus ut ornare sit amet, aliquam non u',
-            datetime: 'Fri',
-        });
-        this.children.chat_5 = new Chat({
-            title: "Designer's Club",
-            avatar: new Avatar({
-                size: 'md',
-            }),
-            lastMessageImage: true,
-            datetime: 'Wed',
-        });
-        this.children.chat_6 = new Chat({
-            title: 'Mary',
-            avatar: new Avatar({
-                size: 'md',
-            }),
-            lastMessageSticker: true,
-            own: true,
-            datetime: 'Mon',
-        });
-        this.children.chat_7 = new Chat({
-            title: 'Friends Group',
-            avatar: new Avatar({
-                size: 'md',
-            }),
-            lastMessage: 'Etiam tincidunt ex ut eros fringilla, ut laoreet quis!',
-            datetime: '9 Sep',
-        });
-        this.children.chat_8 = new Chat({
-            title: 'Mike',
-            avatar: new Avatar({
-                size: 'md',
-            }),
-            lastMessageImage: true,
-            datetime: 'Dec 2021',
-            own: true,
-        });
+        return true;
     }
 
     render() {

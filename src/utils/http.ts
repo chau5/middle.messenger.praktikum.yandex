@@ -15,6 +15,8 @@ type RequestMethodOptionsProps = RequestOptionsProps & {
     method: string;
 };
 
+type HTTPMethodProps = (url: string, options?: RequestOptionsProps) => Promise<unknown>;
+
 function queryStringify(data: Record<string, any>) {
     if (!data) {
         return false;
@@ -26,22 +28,22 @@ function queryStringify(data: Record<string, any>) {
     );
 }
 
-export default class HTTPTransport {
-    get = (url: string, options: RequestOptionsProps) =>
+export default class HTTP {
+    get: HTTPMethodProps = (url, options) =>
         this.request(
-            options.data ? `${url}${queryStringify(options.data)}` : url,
+            options?.data ? `${url}${queryStringify(options.data)}` : url,
             { ...options, data: {}, method: METHOD.GET },
-            options.timeout
+            options?.timeout
         );
 
-    post = (url: string, options: RequestOptionsProps) =>
-        this.request(url, { ...options, method: METHOD.POST }, options.timeout);
+    post: HTTPMethodProps = (url, options) =>
+        this.request(url, { ...options, method: METHOD.POST }, options?.timeout);
 
-    put = (url: string, options: RequestOptionsProps) =>
-        this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
+    put: HTTPMethodProps = (url, options) =>
+        this.request(url, { ...options, method: METHOD.PUT }, options?.timeout);
 
-    delete = (url: string, options: RequestOptionsProps) =>
-        this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
+    delete: HTTPMethodProps = (url, options) =>
+        this.request(url, { ...options, method: METHOD.DELETE }, options?.timeout);
 
     request = (url: string, options: RequestMethodOptionsProps, timeout = 5000) => {
         const { method, data, headers } = options;
@@ -70,6 +72,10 @@ export default class HTTPTransport {
             xhr.onabort = reject;
             xhr.onerror = reject;
             xhr.ontimeout = reject;
+
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.withCredentials = true;
 
             if (method === METHOD.GET || !data) {
                 xhr.send();

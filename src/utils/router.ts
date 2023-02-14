@@ -1,45 +1,94 @@
 import Block from '~/src/utils/block';
+import store from '~/src/utils/store';
+import { AuthController } from '~/src/controllers/auth-controller';
+import { ChatsController } from '~/src/controllers/chats-controller';
 
 export default class Router {
     routesData;
 
-    constructor(routesData: Record<string, Block>) {
-        this.routesData = routesData;
-    }
-
     #baseUrl = new URL(window.location.href).origin;
 
-    init() {
-        const path = this.getPath(window.location.href);
-        this.load(path);
-        this.addLinksClickListener();
+    #history;
+
+    constructor(routesData: Record<string, Block>) {
+        this.routesData = routesData;
+        this.#history = window.history;
     }
 
-    // Output respective template on page and optionally update path
-    load(path: string, updatePath = false) {
-        const template = this.getTemplate(path);
+    async init() {
+        // check if user is logged in on page reload
+        const isLoggedIn = await this.#isLoggedIn();
+        if (isLoggedIn) {
+            // fetch chats
+            await this.#getChats();
+        }
+        const path = this.getPath(window.location.href);
+        this.load(path);
+        // load template on history change
+        window.onpopstate = (event: PopStateEvent) => {
+            const target = event.currentTarget as Window;
+            this.load(target.location?.pathname.substring(1), true);
+        };
+        this.addLinksClickListener();
+        console.log(store?.getState());
+    }
+
+    // Output respective template on page and optionally update history
+    load(path: string, skipHistoryUpdate?: boolean) {
+        const pathReal = this.#withAuth(path);
+        const template = this.getTemplate(pathReal);
         const root = document.getElementById('root');
         if (root) {
             root.innerHTML = '';
             root.append(template.component?.getContent());
         }
         this.updateBgColor(template.name);
-        if (updatePath) {
-            window.history.pushState({}, '', `${this.#baseUrl}/${path}`);
+        if (!skipHistoryUpdate) {
+            window.history.pushState({ pathReal }, '', `${this.#baseUrl}/${pathReal}`);
         }
+    }
+
+    back() {
+        this.#history.back();
+    }
+
+    forward() {
+        this.#history.forward();
+    }
+
+    // Check if user is logged in
+    async #isLoggedIn() {
+        const authC = new AuthController();
+        const user = await authC.getUser();
+        return user;
+    }
+
+    // Get chats
+    async #getChats() {
+        const chatsC = new ChatsController();
+        const chats = await chatsC.request();
+        return chats;
+    }
+
+    // Apply auth state to provided path
+    #withAuth(path: string) {
+        const pagesPublic = ['', 'sign-up'];
+        const pagesPrivate = ['settings', 'messenger', 'logout'];
+        if (store.getState()?.user && pagesPublic.includes(path)) {
+            return 'logout';
+        }
+        if (!store.getState()?.user && pagesPrivate.includes(path)) {
+            return '';
+        }
+        return path;
     }
 
     // Get template data
     getTemplate(path: string) {
         const pathData = this.getPathData(path);
-        let template = pathData.path;
-        if (!template && !pathData.hash) {
-            template = 'signIn';
-        } else if (!template && pathData.hash && pathData.hash === 'signup') {
-            template = 'signUp';
-        }
+        const template = pathData.path ? pathData.path : 'sign-in';
         return !this.routesData[template]
-            ? { name: 'page404', component: this.routesData.page404 }
+            ? { name: 'page-404', component: this.routesData['page-404'] }
             : { name: template, component: this.routesData[template] };
     }
 
@@ -51,34 +100,40 @@ export default class Router {
         buttonLinks.forEach(el => {
             el.addEventListener('click', e => {
                 e.preventDefault();
-
                 if (!(e.currentTarget instanceof HTMLElement)) {
                     return;
                 }
-
                 const isHome =
                     !e.currentTarget.dataset.path || e.currentTarget.dataset.path === '/';
-
                 const linkPath =
                     isHome || !e.currentTarget.dataset.path ? '' : e.currentTarget.dataset.path;
-
-                this.load(linkPath, true);
+                this.load(linkPath);
             });
+        });
+        // add header test router back/forward links
+        const routerLinkBack = document.querySelector('.router-link.back');
+        routerLinkBack?.addEventListener('click', e => {
+            e.preventDefault();
+            this.back();
+        });
+        const routerLinkForward = document.querySelector('.router-link.forward');
+        routerLinkForward?.addEventListener('click', e => {
+            e.preventDefault();
+            this.forward();
         });
     }
 
     // Little helper to get path from provided location.href
     getPath(href: string) {
         const url = new URL(href);
-        return `${url.pathname ? url.pathname.replace('/', '') : ''}${url.hash ?? ''}`;
+        return `${url.pathname ? url.pathname.replace('/', '') : ''}`;
     }
 
-    // Little helper to get naked path and hash from provided full path
+    // Little helper to get naked path from provided full path
     getPathData(path: string) {
         const url = new URL(`${this.#baseUrl}/${path}`);
         return {
             path: url.pathname.replace('/', ''),
-            hash: url.hash.replace('#', ''),
         };
     }
 
@@ -89,13 +144,13 @@ export default class Router {
         if (templateName === 'signUp') {
             color = 'cyan';
         }
-        if (templateName === 'chats') {
+        if (templateName === 'messenger') {
             color = 'orange';
         }
-        if (templateName === 'page404') {
+        if (templateName === 'page-404') {
             color = 'pink';
         }
-        if (templateName === 'page500') {
+        if (templateName === 'page-500') {
             color = 'red';
         }
         body.dataset.bgColor = color;

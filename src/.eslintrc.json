@@ -19,6 +19,7 @@
         "@typescript-eslint/no-this-alias": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "no-shadow": "off", // see https://stackoverflow.com/a/63961972
-        "@typescript-eslint/no-shadow": ["error"]
+        "@typescript-eslint/no-shadow": ["error"],
+        "import/prefer-default-export": "warn"
     }
 }

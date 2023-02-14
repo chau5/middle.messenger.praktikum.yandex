@@ -41,6 +41,7 @@ export default class MessageSticker extends Block {
             ...this.props,
             classes,
             sticker: stickers[this.props.sticker],
+            stickerName: this.props.sticker,
         });
     }
 }

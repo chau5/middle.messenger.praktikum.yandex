@@ -23,15 +23,6 @@ export default class MessageImage extends Block {
             classes.window
         );
 
-        // check for provided styles and add if any
-        if (props.styles) {
-            props.styles.forEach(style => {
-                if (this.element) {
-                    this.element.classList.add(style);
-                }
-            });
-        }
-
         if (props.own) {
             this.element.classList.add(classes['message-own']);
         } else {

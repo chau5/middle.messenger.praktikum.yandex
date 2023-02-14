@@ -1,9 +1,9 @@
 import Block from '~/src/utils/block';
 import { InputProps } from '~/src/utils/prop-types';
 import validateInput from '~/src/utils/validator';
-import template from './input.hbs';
+import template from './input-message.hbs';
 
-export default class Input extends Block {
+export default class InputMessage extends Block {
     constructor(props: InputProps) {
         props.events = {
             blur(e) {
@@ -21,7 +21,7 @@ export default class Input extends Block {
             return;
         }
 
-        this.element.classList.add('input-wrap', 'window', 'p-0/5', 'sm', 'bg-gray-light');
+        this.element.classList.add('input-wrap', 'window', 'sm', 'bg-gray-light');
     }
 
     render() {

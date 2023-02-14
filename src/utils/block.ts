@@ -4,13 +4,13 @@ import { EventBus } from './event-bus';
 
 type PropsType = Record<string, any>;
 
-export default class Block {
+export default abstract class Block {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',
         FLOW_CDU: 'flow:component-did-update',
         FLOW_RENDER: 'flow:render',
-    };
+    } as const;
 
     #element!: HTMLElement;
 
@@ -23,7 +23,7 @@ export default class Block {
 
     #id!: string;
 
-    #eventBus: () => EventBus;
+    #eventBus: EventBus;
 
     props: PropsType;
 
@@ -57,7 +57,7 @@ export default class Block {
         this.props = this.#makePropsProxy({ ...props, __id: this.#id });
 
         // Set link to the new event bus
-        this.#eventBus = () => eventBus;
+        this.#eventBus = eventBus;
 
         // Register block events
         this.#registerEvents(eventBus);
@@ -91,7 +91,7 @@ export default class Block {
         // Create resources, currently a single element, see createDocumentElement()
         this.#createResources();
         // Emit "render" event
-        this.#eventBus().emit(Block.EVENTS.FLOW_RENDER, 'emit render');
+        this.#eventBus.emit(Block.EVENTS.FLOW_RENDER, 'emit render');
     }
 
     init() {}
@@ -104,7 +104,11 @@ export default class Block {
         this.componentDidMount();
 
         Object.values(this.children).forEach(component => {
-            component.dispatchComponentDidMount();
+            if (Array.isArray(component)) {
+                component.forEach(child => child.dispatchComponentDidMount());
+            } else {
+                component.dispatchComponentDidMount();
+            }
         });
     }
 
@@ -113,7 +117,7 @@ export default class Block {
 
     // Dispatch i.e. emit "componentDidMount" event
     dispatchComponentDidMount() {
-        this.#eventBus().emit(Block.EVENTS.FLOW_CDM, 'emit cdm');
+        this.#eventBus.emit(Block.EVENTS.FLOW_CDM, 'emit cdm');
     }
 
     // EVENT: "componentDidUpdate" function
@@ -123,7 +127,7 @@ export default class Block {
         }
         const response = this.componentDidUpdate(oldProps, newProps);
         if (response) {
-            this.#eventBus().emit(Block.EVENTS.FLOW_RENDER, 'emit render');
+            this.#eventBus.emit(Block.EVENTS.FLOW_RENDER, 'emit render');
         }
     }
 
@@ -164,14 +168,15 @@ export default class Block {
         // Add element contents
         this.#element.append(block);
 
+        // Add element attributes
+        this.#addClasses();
+
         // Add events here
         this.#addEvents();
     }
 
     // Could be redeclared by user
-    render(): DocumentFragment {
-        return new DocumentFragment();
-    }
+    abstract render(): DocumentFragment;
 
     #removeEvents() {
         if (!(this.#events && Object.keys(this.#events).length)) {
@@ -184,17 +189,36 @@ export default class Block {
 
     #addEvents() {
         const { events = {} } = this.props;
+        // Check if component has a child element which is the actual one e.g. input inside div wrapper
+        const { child } = this.props;
 
         Object.keys(events).forEach((eventName: string) => {
             this.#events[eventName] = events[eventName];
             if (this.#element.tagName) {
+                let targetEl = this.#element;
+                if (child) {
+                    targetEl = this.#element.querySelector(child) as HTMLElement;
+                }
                 // Add useCapture() for form elements
-                this.#element.addEventListener(
+                targetEl.addEventListener(
                     eventName,
                     events[eventName],
                     this.#meta.tagName === 'form'
                 );
             }
+        });
+    }
+
+    // Add CSS classes
+    #addClasses() {
+        const { css = [] } = this.props;
+
+        if (!css) {
+            return;
+        }
+
+        Object.entries(css).forEach(([_, cssClass]) => {
+            this.element.classList.add(cssClass as string);
         });
     }
 
@@ -225,7 +249,7 @@ export default class Block {
 
                 // Update component
                 // Bad cloneDeep, better to improve
-                self.#eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+                self.#eventBus.emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
                 return true;
             },
         });
@@ -249,7 +273,9 @@ export default class Block {
         const props: PropsType = {};
 
         Object.entries(propsAndChildren).forEach(([key, value]) => {
-            if (value instanceof Block) {
+            if (Array.isArray(value) && value.length > 0 && value.every(v => v instanceof Block)) {
+                children[key] = value;
+            } else if (value instanceof Block) {
                 children[key] = value;
             } else {
                 props[key] = value;
@@ -264,19 +290,31 @@ export default class Block {
         const propsAndStubs = { ...context };
 
         Object.entries(this.children).forEach(([key, component]: [string, Block | any]) => {
-            propsAndStubs[key] = `<div data-id="${component.#id}"></div>`;
+            if (Array.isArray(component)) {
+                propsAndStubs[key] = component.map(child => `<div data-id="${child.id}"></div>`);
+            } else {
+                propsAndStubs[key] = `<div data-id="${component.#id}"></div>`;
+            }
         });
 
         const html = template(propsAndStubs);
         const fragment = document.createElement('template');
         fragment.innerHTML = html;
 
-        Object.values(this.children).forEach((component: Block) => {
+        const replaceStub = (component: Block) => {
             const stub = fragment.content.querySelector(`[data-id="${component.#id}"]`);
             if (!stub) {
                 return;
             }
             stub.replaceWith(component.getContent());
+        };
+
+        Object.values(this.children).forEach((component: Block) => {
+            if (Array.isArray(component)) {
+                component.forEach(replaceStub);
+            } else {
+                replaceStub(component);
+            }
         });
 
         return fragment.content;

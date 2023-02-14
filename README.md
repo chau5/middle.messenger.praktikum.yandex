@@ -13,9 +13,13 @@
 -   `npm run eslint` - run ESLint with `--quite` parameter
 -   `npm run stylelint` - run Stylelint
 
-## Sprint 2
+## Sprint 3
 
 ### Pull request - TBC
+
+## Sprint 2
+
+### Pull request - https://github.com/chau5/middle.messenger.praktikum.yandex/pull/9
 
 #### Updates
 

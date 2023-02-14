@@ -38,20 +38,17 @@ export default class ButtonIcon extends Block {
         this.element.setAttribute('id', props.id);
         this.element.setAttribute('title', props.title);
 
-        // check for provided styles and add if any
-        if (props.styles) {
-            props.styles.forEach(style => {
-                if (this.element) {
-                    this.element.classList.add(style);
-                }
-            });
-        }
-
         // add optional link class
         if (props.link) {
             this.element.classList.add('link');
             this.element.dataset.path = props.link;
+        }
+
+        // keep button as type="button" to avoid form submission
+        if (props.link || props.action) {
             this.element.setAttribute('type', 'button');
+        } else {
+            this.element.setAttribute('type', 'submit');
         }
 
         this.props.icon_url = this.#icons[props.icon];

@@ -25,15 +25,6 @@ export default class Avatar extends Block {
             'shrink-0',
             props.size ? this.#windowSizes[props.size] : 'sm'
         );
-
-        // check for provided styles and add if any
-        if (props.styles) {
-            props.styles.forEach(style => {
-                if (this.element) {
-                    this.element.classList.add(style);
-                }
-            });
-        }
     }
 
     render() {

@@ -17,10 +17,10 @@ export default class Header extends Block {
 
     init() {
         this.children.buttonIcon = new ButtonIcon({
-            title: 'Account',
-            id: 'account',
+            title: 'Actions',
+            id: 'settings',
             icon: 'hamburger',
-            styles: ['bg-green'],
+            css: ['bg-green'],
             events: {
                 click(e) {
                     e.preventDefault();

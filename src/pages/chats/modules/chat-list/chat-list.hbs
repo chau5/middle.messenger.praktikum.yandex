@@ -1,16 +1,17 @@
 <div class="inner overflow-hidden p-0/5">
-    <header class="d-flex mb-2">
-        {{{buttonIcon}}}
-        {{{inputSearch}}}
+    <header class="d-flex mb-2 justify-content-between">
+        <div class="d-flex">
+            {{{buttonAccount}}}
+            <p class="text-white pt-1/5 mb-0">Account</p>
+        </div>
+        <div class="d-flex">
+            <p class="text-white pt-1/5 mb-0">Add chat</p>
+            {{{buttonAddChat}}}
+        </div>
     </header>
     <div class="list overflow-y-scroll h-100 pb-4/5 pr-2">
-        {{{chat_1}}}
-        {{{chat_2}}}
-        {{{chat_3}}}
-        {{{chat_4}}}
-        {{{chat_5}}}
-        {{{chat_6}}}
-        {{{chat_7}}}
-        {{{chat_8}}}
+        {{#each chats}}
+            {{{this}}}
+        {{/each}}
     </div>
 </div>
