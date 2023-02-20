@@ -1,7 +1,8 @@
 import Block from '~/src/utils/block';
-import { FormProps, UserProps, UserSignInProps } from '~/src/utils/prop-types';
-import { validateForm } from '~/src/utils/validator';
+import { FormProps, UserProps, UserSignInProps, UserSignUpProps } from '~/src/utils/prop-types';
+import { validateForm, validatePassword } from '~/src/utils/validator';
 import { AuthController } from '~/src/controllers/auth-controller';
+import { ChatsController } from '~/src/controllers/chats-controller';
 import { SettingsController } from '~/src/controllers/settings-controller';
 
 import template from './form.hbs';
@@ -10,6 +11,7 @@ export default class Form extends Block {
     constructor(props: FormProps) {
         const auth = new AuthController();
         const settings = new SettingsController();
+        const chats = new ChatsController();
 
         props.events = {
             async submit(e) {
@@ -20,14 +22,43 @@ export default class Form extends Block {
                     }
                     const formData = new FormData(e.target);
                     const formProps = Object.fromEntries(formData);
-                    console.log('submitting form');
                     if (props.id === 'form-sign-in') {
                         await auth.signin(formProps as UserSignInProps);
                     } else if (props.id === 'form-sign-up') {
-                        console.log('form: sign up');
+                        if (!validatePassword(e.target)) {
+                            alert(
+                                'Oops, something is wrong with your password values, please ensure the values match'
+                            );
+                            return;
+                        }
+                        await auth.signup(formProps as UserSignUpProps);
                     } else if (props.id === 'account') {
-                        console.log('form: update account');
                         await settings.update(formProps as UserProps);
+                    } else if (props.id === 'form-add-chat') {
+                        await chats.create(formProps.chat_name as string);
+                        const popUp = document.querySelector('.pop-up');
+                        popUp?.remove();
+                    } else if (props.id === 'form-password') {
+                        if (!validatePassword(e.target)) {
+                            alert(
+                                'Oops, something is wrong with your password values, please ensure the new values match'
+                            );
+                            return;
+                        }
+                        if (
+                            !window.confirm('Are you sure? You will be logged out after the change')
+                        ) {
+                            return;
+                        }
+                        const passwordUpdated = await settings.updatePassword(
+                            formProps as UserProps
+                        );
+                        if (!passwordUpdated) {
+                            return;
+                        }
+                        await auth.logout();
+                        const popUp = document.querySelector('.pop-up');
+                        popUp?.remove();
                     }
                 } catch (error: any) {
                     alert(`Oops, something went wrong: ${error.message}`);

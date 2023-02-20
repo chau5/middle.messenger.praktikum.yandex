@@ -8,20 +8,12 @@ export enum StoreEvents {
 export class Store extends EventBus {
     #state: any = {};
 
-    constructor() {
-        super();
-        this.on(StoreEvents.Updated, () => {
-            console.log('updated store');
-        });
-    }
-
     set(keypath: string, data: unknown) {
         set(this.#state, keypath, data);
-
-        console.log(this);
-
         this.emit(StoreEvents.Updated);
     }
+
+    /** @todo implement unset function */
 
     getState() {
         return this.#state;

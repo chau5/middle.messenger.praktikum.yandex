@@ -1,16 +1,27 @@
 import { AuthAPI } from '../api/auth-api';
 import { ChatsController } from './chats-controller';
-import { UserSignInProps } from '~/src/utils/prop-types';
+import { UserSignInProps, UserSignUpProps } from '~/src/utils/prop-types';
 import store from '~/src/utils/store';
 import router from '~/src/index';
 
 export class AuthController {
     #api = new AuthAPI();
 
-    /** @todo */
-    async signup() {
+    async signup(data: UserSignUpProps) {
         try {
-            await this.#api.signup().then((data: unknown) => console.log(data));
+            const response = (await this.#api.signup(data)) as XMLHttpRequest;
+            if (response.status !== 200) {
+                const responseText = JSON.parse(response.response);
+                const { reason } = responseText;
+                console.warn(`Oops, something went wrong: ${reason}`);
+                alert(`Oops, something went wrong: ${reason}`);
+                return;
+            }
+            // set user data and redirect to /messenger
+            await this.getUser();
+            const chats = new ChatsController();
+            await chats.request();
+            router.load('messenger');
         } catch (e: any) {
             console.error(e.message);
         }

@@ -12,4 +12,17 @@ export class SettingsAPI extends BaseAPI {
             data,
         });
     }
+
+    updateAvatar(formData: FormData) {
+        return settingsAPIBase.put(`${SettingsAPI.basePath}/profile/avatar`, {
+            data: formData,
+            type: 'form',
+        });
+    }
+
+    updatePassword(data: Record<string, any>) {
+        return settingsAPIBase.put(`${SettingsAPI.basePath}/password`, {
+            data,
+        });
+    }
 }

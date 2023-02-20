@@ -32,11 +32,19 @@ const validateInput = (target: HTMLInputElement) => {
         pattern = /^(?=.*[A-Za-z])([A-Za-z0-9-_]{3,20})$/;
     }
 
+    if (target.name === 'chat_name') {
+        pattern = /^([A-Za-z0-9-_\s]{3,20})$/;
+    }
+
     if (target.name === 'email') {
         pattern = /^[A-Za-z0-9-_]+@[0-9_-]*[A-Za-z]+[0-9_-]*[A-Za-z0-9-_]*\.[A-Za-z-_0-9]+$/;
     }
 
-    if (target.name === 'password' || target.name === 'password_2') {
+    if (
+        target.name === 'password' ||
+        target.name === 'password_2' ||
+        target.name === 'password_0'
+    ) {
         pattern = /^(?=.*[0-9])(?=.*[A-Z])([.\S]{8,40})$/;
     }
 
@@ -49,7 +57,9 @@ const validateInput = (target: HTMLInputElement) => {
     }
 
     /** @todo add better validation messages */
-    message = `Oops, something is wrong with the ${target.name.replace('_', ' ')} value`;
+    message = `Oops, something is wrong with the ${
+        target.name.includes('password') ? 'password' : target.name.replace('_', ' ')
+    } value`;
 
     if (typeof target.value === 'string' && (!pattern || pattern.test(target.value))) {
         inputWrap?.classList.remove('error');
@@ -79,6 +89,21 @@ const validateForm = (target: HTMLFormElement) => {
     });
 
     return isValid;
+};
+
+// validate passsword values
+// don't check old password since we don't store it anywhere and API doesn't return one
+export const validatePassword = (target: HTMLFormElement) => {
+    // compare two password values
+    const password = target.querySelector('input[name="password"]') as HTMLInputElement;
+    const password2 = target.querySelector('input[name="password_2"]') as HTMLInputElement;
+    if (!password || !password2) {
+        return false;
+    }
+    if (password.value !== password2.value) {
+        return false;
+    }
+    return true;
 };
 
 export default validateInput;

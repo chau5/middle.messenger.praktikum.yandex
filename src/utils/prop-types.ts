@@ -2,7 +2,7 @@ import { CallbackType } from '~/src/utils/event-bus';
 import Input from '~/src/components/input';
 import InputWLabel from '~/src/components/input-w-label';
 import Button from '~/src/components/button';
-import Avatar from '~src/components/avatar';
+import Avatar from '~/src/components/avatar';
 import ButtonIcon from '~/src/components/button-icon';
 import InputMessage from '~/src/pages/chats/modules/single-chat/modules/form-message/components/input-message';
 
@@ -88,6 +88,15 @@ export type UserSignInProps = {
     password: string;
 };
 
+export type UserSignUpProps = {
+    first_name: string;
+    second_name: string;
+    login: string;
+    email: string;
+    password: string;
+    phone: string;
+};
+
 export type UserProps = UserSignInProps & {
     login: string;
     password: string;
@@ -102,6 +111,7 @@ export type ChatProps = {
     avatar: Avatar;
     title: string;
     id: number;
+    active: boolean;
     datetime?: string | null;
     unread?: number;
     lastMessage?: string | null;
@@ -117,11 +127,23 @@ export type MessageProps = {
     own?: boolean;
 };
 
-export type MessageApiProps = {
+export type LastMessageApiProps = {
     user: UserProps;
     time: string;
     content: string | any;
     id: number;
+};
+
+export type MessageApiProps = {
+    user: UserProps;
+    time: string;
+    id: number;
+    chat_id: number;
+    content: string;
+    file: null;
+    is_read: boolean;
+    type: string;
+    user_id: number;
 };
 
 export type ChatApiProps = {
@@ -129,7 +151,7 @@ export type ChatApiProps = {
     title: string;
     avatar: string | null;
     created_by: number;
-    last_message: MessageApiProps;
+    last_message: LastMessageApiProps;
     unread_count: number;
 };
 
@@ -137,4 +159,9 @@ export type ChatDetailsProps = {
     datetime: string | null;
     lastMessage: string | null;
     own: boolean;
+};
+
+export type PasswordProps = {
+    oldPassword: string;
+    newPassword: string;
 };

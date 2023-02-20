@@ -13,7 +13,7 @@
         &:active,
         &.active {
             &::before {
-                background-color: var(--c-cyan-light-alt);
+                background-color: var(--c-white);
             }
         }
 
@@ -22,11 +22,11 @@
         }
 
         .details {
-            flex: 0 0 calc(80% - 40px - 16px - 4px);
+            flex: 0 0 calc(75% - 40px - 16px - 4px);
         }
 
         .meta {
-            flex: 0 0 15%;
+            flex: 0 0 20%;
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-end;
@@ -41,6 +41,8 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            position: absolute;
+            top: 30px;
         }
     }
 }

@@ -3,20 +3,25 @@ import ButtonIcon from '~/src/components/button-icon';
 import InputMessage from './components/input-message';
 import { FormProps } from '~/src/utils/prop-types';
 import { validateForm } from '~/src/utils/validator';
+import { MessagesController } from '~/src/controllers/messages-controller';
 import template from './form-message.hbs';
 
 export default class FormMessage extends Block {
     constructor(props: FormProps) {
         props.events = {
-            submit(e) {
+            async submit(e) {
                 e.preventDefault();
                 if (!validateForm(e.target)) {
                     return;
                 }
                 const formData = new FormData(e.target);
                 const formProps = Object.fromEntries(formData);
-                console.log('submitting form');
-                console.log(formProps);
+                if (!formProps.message) {
+                    alert(`Oops, you can't send an empty message`);
+                }
+                const messages = new MessagesController();
+                // sanitize message and submit
+                await messages.sendMessage(formProps.message.toString());
             },
         };
 

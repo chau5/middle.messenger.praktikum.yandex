@@ -2,11 +2,12 @@ import Block from '~/src/utils/block';
 import Chat from './components/chat';
 import Avatar from '~/src/components/avatar';
 import ButtonIcon from '~/src/components/button-icon';
+import PopUpAddChat from './components/pop-up-add-chat';
 import router from '~/src/index';
 import template from './chat-list.hbs';
 import { ChatApiProps } from '~/src/utils/prop-types';
 import store, { StoreEvents } from '~/src/utils/store';
-import { getChatDetails } from '~/src/utils/helpers';
+import { getChatDetails, appendPopUp } from '~/src/utils/helpers';
 import { MessagesController } from '~/src/controllers/messages-controller';
 import './chat-list.css';
 
@@ -40,7 +41,7 @@ export default class ChatList extends Block {
         this.children.buttonAddChat = new ButtonIcon({
             title: 'Add Chat',
             id: 'add-chat',
-            icon: 'hamburger',
+            icon: 'star',
             css: ['ml-1/5', 'bg-orange'],
             action: 'add-chat',
             settings: {
@@ -49,7 +50,7 @@ export default class ChatList extends Block {
             events: {
                 click(e) {
                     e.preventDefault();
-                    console.log('add chat');
+                    appendPopUp(new PopUpAddChat());
                 },
             },
         });
@@ -57,7 +58,9 @@ export default class ChatList extends Block {
     }
 
     componentDidUpdate(): boolean {
-        const chats = store?.getState()?.chats;
+        const state = store?.getState();
+        const chats = state?.chats;
+        const currentChatId = state?.chatId;
         if (!chats) {
             return false;
         }
@@ -69,16 +72,23 @@ export default class ChatList extends Block {
                     ...chatDetails,
                     id: chat.id,
                     title: chat.title,
-                    unread: chat.unread_count ? chat.unread_count : 99, // keep for demoing purposes
+                    unread: chat.unread_count ? chat.unread_count : 0,
                     avatar: new Avatar({
                         size: 'md',
                     }),
+                    active: currentChatId && currentChatId === chat.id,
                     events: {
                         async click(e) {
                             e.preventDefault();
                             const messages = new MessagesController();
-                            await messages.loadMessages();
-                            console.log(`load chat ID: ${e.currentTarget?.dataset?.id}`);
+                            const chatEl = e.currentTarget;
+                            const chatId = chatEl?.dataset?.id;
+                            if (!chatId) {
+                                alert('Oops, there is no chat ID found');
+                                return;
+                            }
+                            await messages.connect(chatId);
+                            chatEl.classList.add('active');
                         },
                     },
                 })

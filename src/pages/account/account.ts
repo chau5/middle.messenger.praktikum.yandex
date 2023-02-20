@@ -4,14 +4,19 @@ import Avatar from '~/src/components/avatar';
 import ButtonIcon from '~/src/components/button-icon';
 import Button from '~/src/components/button';
 import InputWLabel from '~/src/components/input-w-label';
+import FormAvatar from './modules/form-avatar';
+import PopUpPassword from './components/pop-up-password';
 import router from '~/src/index';
 import validator from '~/src/utils/validator';
 import { AuthController } from '~/src/controllers/auth-controller';
-import store, { StoreEvents } from '~src/utils/store';
+import store, { StoreEvents } from '~/src/utils/store';
+import { appendPopUp } from '~/src/utils/helpers';
 import template from './account.hbs';
 import * as classes from './account.module.css';
 
 export default class PageAccount extends Block {
+    static resourcesBase = `${process.env.API_BASE_URL}/resources`;
+
     constructor() {
         super({}, 'div');
 
@@ -43,6 +48,12 @@ export default class PageAccount extends Block {
             size: 'lg',
             css: ['mb-2'],
         });
+        this.children.formAvatar = new FormAvatar({
+            id: 'form_update_avatar',
+            events: {},
+            inputs: [],
+            buttons: [],
+        });
         // Add element placeholder to update later with componentDidUpdate()
         this.children.form = new Form({
             id: 'account',
@@ -55,19 +66,16 @@ export default class PageAccount extends Block {
     componentDidUpdate(): boolean {
         const auth = new AuthController();
         const state = store?.getState();
+        if (state?.user?.avatar) {
+            this.children.avatar = new Avatar({
+                url: `${PageAccount.resourcesBase}/${state?.user?.avatar}`,
+                size: 'lg',
+                css: ['mb-2'],
+            });
+        }
         this.children.form = new Form({
             id: 'account',
             events: {
-                submit(e) {
-                    e.preventDefault();
-                    const isValid = validator(e);
-                    if (isValid) {
-                        const formData = new FormData(e.target);
-                        const formProps = Object.fromEntries(formData);
-                        console.log('submitting form');
-                        console.log(formProps);
-                    }
-                },
                 blur(e) {
                     validator(e);
                 },
@@ -133,6 +141,42 @@ export default class PageAccount extends Block {
             ],
             buttons: [
                 new Button({
+                    title: 'Update avatar',
+                    id: 'update_avatar',
+                    action: 'update-avatar',
+                    css: ['bg-orange', 'mb-2'],
+                    events: {
+                        click(e) {
+                            e.preventDefault();
+                            document.querySelector('.avatar-form-wrap')?.classList.remove('d-none');
+                            this.closest('form')
+                                .querySelector('#cancel_avatar_update')
+                                ?.classList.remove('d-none');
+                            e.currentTarget.classList.add('d-none');
+                            // scroll to the top
+                            document
+                                .querySelector('html')
+                                ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        },
+                    },
+                }),
+                new Button({
+                    title: 'Cancel avatar update',
+                    id: 'cancel_avatar_update',
+                    action: 'cancel-avatar-update',
+                    css: ['bg-orange', 'mb-2', 'd-none'],
+                    events: {
+                        click(e) {
+                            e.preventDefault();
+                            document.querySelector('.avatar-form-wrap')?.classList.add('d-none');
+                            this.closest('form')
+                                .querySelector('#update_avatar')
+                                ?.classList.remove('d-none');
+                            e.currentTarget.classList.add('d-none');
+                        },
+                    },
+                }),
+                new Button({
                     title: 'Update details',
                     id: 'update_details',
                     action: 'update-details',
@@ -151,6 +195,7 @@ export default class PageAccount extends Block {
 
                             form.querySelector('#change_password')?.classList.add('d-none');
                             form.querySelector('#logout')?.classList.add('d-none');
+                            form.querySelector('#update_avatar')?.classList.add('d-none');
                         },
                     },
                 }),
@@ -179,6 +224,7 @@ export default class PageAccount extends Block {
                             form.querySelector('#update_details')?.classList.remove('d-none');
                             form.querySelector('#change_password')?.classList.remove('d-none');
                             form.querySelector('#logout')?.classList.remove('d-none');
+                            form.querySelector('#update_avatar')?.classList.remove('d-none');
                         },
                     },
                 }),
@@ -190,7 +236,7 @@ export default class PageAccount extends Block {
                     events: {
                         click(e) {
                             e.preventDefault();
-                            console.log('change password');
+                            appendPopUp(new PopUpPassword());
                         },
                     },
                 }),

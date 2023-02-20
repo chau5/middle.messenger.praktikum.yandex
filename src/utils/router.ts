@@ -2,6 +2,7 @@ import Block from '~/src/utils/block';
 import store from '~/src/utils/store';
 import { AuthController } from '~/src/controllers/auth-controller';
 import { ChatsController } from '~/src/controllers/chats-controller';
+import { MessagesController } from '~src/controllers/messages-controller';
 
 export default class Router {
     routesData;
@@ -30,11 +31,10 @@ export default class Router {
             this.load(target.location?.pathname.substring(1), true);
         };
         this.addLinksClickListener();
-        console.log(store?.getState());
     }
 
     // Output respective template on page and optionally update history
-    load(path: string, skipHistoryUpdate?: boolean) {
+    async load(path: string, skipHistoryUpdate?: boolean) {
         const pathReal = this.#withAuth(path);
         const template = this.getTemplate(pathReal);
         const root = document.getElementById('root');
@@ -46,6 +46,9 @@ export default class Router {
         if (!skipHistoryUpdate) {
             window.history.pushState({ pathReal }, '', `${this.#baseUrl}/${pathReal}`);
         }
+        // close ws connection on page change/reload
+        const messages = new MessagesController();
+        await messages.disconnect();
     }
 
     back() {

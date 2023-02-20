@@ -24,6 +24,9 @@ export default class Chat extends Block {
             'p-2'
         );
 
+        if (this.props?.active) {
+            this.element.classList.add('active');
+        }
         this.element.setAttribute('data-id', this.props.id);
     }
 

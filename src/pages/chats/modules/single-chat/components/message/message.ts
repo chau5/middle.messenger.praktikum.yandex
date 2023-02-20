@@ -12,16 +12,7 @@ export default class Message extends Block {
         }
 
         // add default classes
-        this.element.classList.add(
-            'window',
-            'message',
-            'mw-fit',
-            'w-50',
-            'mb-2/5',
-            'd-flex',
-            'p-2',
-            'pb-4'
-        );
+        this.element.classList.add('window', 'message', 'w-50', 'mb-2/5', 'd-flex', 'p-2', 'pb-4');
 
         if (props.own) {
             this.element.classList.add('bg-cyan-light', classes['message-own']);

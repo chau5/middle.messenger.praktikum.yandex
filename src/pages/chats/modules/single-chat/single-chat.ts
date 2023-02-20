@@ -1,13 +1,13 @@
 import Avatar from '~/src/components/avatar';
 import Header from './components/header';
-import Datetime from './components/datetime';
 import Message from './components/message';
-import MessageImage from './components/message-image';
-import MessageSticker from './components/message-sticker';
 import FormMessage from './modules/form-message';
+import Empty from './components/empty';
+import store, { StoreEvents } from '~/src/utils/store';
 import Block from '~/src/utils/block';
+import { getDatetime, getTimestamp } from '~/src/utils/helpers';
+import { MessageApiProps } from '~/src/utils/prop-types';
 import template from './single-chat.hbs';
-import imageMessage from '~/static/images/300x200.png';
 import './single-chat.css';
 
 export default class SingleChat extends Block {
@@ -23,47 +23,53 @@ export default class SingleChat extends Block {
             'd-flex',
             'h-100'
         );
+
+        store.on(StoreEvents.Updated, () => {
+            const displayName = store.getState()?.user?.display_name;
+            this.setProps({ displayName });
+        });
     }
 
     init() {
+        this.children.placeholder = new Empty();
+    }
+
+    componentDidUpdate(): boolean {
+        const state = store?.getState();
+        const userId = state?.user?.id;
+        const messages = state?.messages;
+
+        if (messages === null) {
+            this.children.placeholder = new Empty();
+            delete this.children.messages;
+            delete this.children.header;
+            delete this.children.form;
+            return true;
+        }
+
+        if (!messages) {
+            return false;
+        }
+
         this.children.header = new Header({
             avatar: new Avatar({
                 size: 'sm',
             }),
-            title: 'Jerry',
+            title: state?.chatTitle,
         });
-        this.children.datetime = new Datetime({
-            date: 'Jun 20',
-        });
-        this.children.messages = [
-            new Message({
-                content:
-                    'Pellentesque congue imperdiet urna non eleifend. In eu odio finibus pretium nisl non, gravida nunc. Cras faucibus in arcu et pulvinar. Mauris tincidunt accumsan convalli.<br /><br />Curabitur posuere ipsum nec orci auctor blandit. Nam at odio elementum, hendrerit ex aliquet, congue elit. Praesent tincidunt vestibulum lacinia. Nunc vehicula at mauris a consectetur.<br /><br />Vestibulum imperdiet tortor mauris, eu cursus lacus dignissim.',
-                datetime: '2:14pm',
-            }),
-            new MessageImage({
-                image: imageMessage,
-                datetime: '2:18pm',
-            }),
-            new Message({
-                content: 'Cool!',
-                datetime: '2:20pm',
-                own: true,
-            }),
-            new MessageSticker({
-                sticker: 'smile',
-                datetime: '2:21pm',
-                own: true,
-            }),
-            new MessageImage({
-                image: imageMessage,
-                datetime: '2:30pm',
-                own: true,
-            }),
-        ];
+        delete this.children.placeholder;
+        this.children.messages = messages.map(
+            (message: MessageApiProps) =>
+                new Message({
+                    content: message.content,
+                    datetime: getDatetime(getTimestamp(message.time)),
+                    own: message.user_id === userId,
+                })
+        );
         this.children.form = new FormMessage({
             id: 'send-message',
         });
+        return true;
     }
 
     render() {

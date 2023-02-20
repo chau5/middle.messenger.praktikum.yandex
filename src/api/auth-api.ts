@@ -1,18 +1,15 @@
 import HTTP from '../utils/http';
 import BaseAPI from './base-api';
-import { UserSignInProps } from '~/src/utils/prop-types';
+import { UserSignInProps, UserSignUpProps } from '~/src/utils/prop-types';
 
 const authAPIBase = new HTTP();
 
 export class AuthAPI extends BaseAPI {
     static basePath = `${BaseAPI.baseUrl}/auth`;
 
-    signup() {
+    signup(data: UserSignUpProps) {
         return authAPIBase.post(`${AuthAPI.basePath}/signup/`, {
-            data: {
-                login: 'chausme11',
-                password: 'passchausme11',
-            },
+            data,
         });
     }
 

@@ -1,6 +1,8 @@
 import Block from '~/src/utils/block';
 import ButtonIcon from '~/src/components/button-icon';
+import PopUpChatActions from '../pop-up-chat-actions';
 import { HeaderProps } from '~/src/utils/prop-types';
+import { appendPopUp } from '~/src/utils/helpers';
 import template from './header.hbs';
 
 export default class Header extends Block {
@@ -24,7 +26,7 @@ export default class Header extends Block {
             events: {
                 click(e) {
                     e.preventDefault();
-                    console.log('chat actions');
+                    appendPopUp(new PopUpChatActions());
                 },
             },
         });

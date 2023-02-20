@@ -3,7 +3,12 @@
 </div>
 <div class="inner d-flex flex-column h-100">
     <div class="d-flex flex-column align-items-center">
-        {{{avatar}}}
+        <div class="avatar-wrap relative">
+            {{{avatar}}}
+            <div class="avatar-form-wrap d-none">
+                {{{formAvatar}}}
+            </div>
+        </div>
         <h2 class="font-400 mb-4">{{{displayName}}}</h2>
     </div>
     {{{form}}}

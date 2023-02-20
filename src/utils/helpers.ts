@@ -1,4 +1,5 @@
 import { ChatApiProps, ChatDetailsProps } from '~/src/utils/prop-types';
+import Block from './block';
 import store from './store';
 
 type Indexed<T = unknown> = {
@@ -51,14 +52,46 @@ export const set = (object: Indexed | unknown, path: string, value: unknown): In
     return merge(object as Indexed, rhs as Indexed);
 };
 
-const getDate = (timestamp: number): string => {
+/** Check provided date is today */
+const isToday = (date: Date): boolean => new Date().toDateString() === date.toDateString();
+
+/** Get month name */
+const getMonthName = (monthNumber: number): string => {
+    const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+    ];
+    return months[monthNumber];
+};
+
+/** Get chat datetime based on the last message date */
+const getChatDatetime = (timestamp: number): string => {
     const date = new Date(timestamp);
     const hoursRaw = date.getHours();
     const hours = hoursRaw ? hoursRaw % 12 : 12;
     const minutes = date.getMinutes();
     const ampm = hoursRaw >= 12 ? 'pm' : 'am';
-    return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}${ampm}`;
+    if (isToday(date)) {
+        return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}${ampm}`;
+    }
+    return `${getMonthName(date.getMonth())} ${date.getDate() + 1}, ${date.getFullYear()}`;
 };
+
+/** Get a timestamp from the provided string */
+export const getTimestamp = (date: string): number => Date.parse(date);
+
+/** Get datetime from the provided timestamp */
+export const getDatetime = (timestamp: number): string => new Date(timestamp).toLocaleString();
 
 const trimMessage = (message: string): string => {
     const maxLength = 75;
@@ -69,8 +102,8 @@ const trimMessage = (message: string): string => {
 };
 
 export const getChatDetails = (chat: ChatApiProps): ChatDetailsProps => {
-    const datetimeRaw = chat?.last_message?.time ? Date.parse(chat?.last_message?.time) : null;
-    const date = datetimeRaw ? getDate(datetimeRaw) : null;
+    const timestamp = getTimestamp(chat?.last_message?.time);
+    const date = timestamp ? getChatDatetime(timestamp) : null;
     const lastMessage = chat?.last_message?.content ? trimMessage(chat.last_message.content) : null;
 
     // check last message owner
@@ -85,4 +118,31 @@ export const getChatDetails = (chat: ChatApiProps): ChatDetailsProps => {
         lastMessage,
         own,
     };
+};
+
+export const appendPopUp = (popUp: Block) => {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('pop-up');
+    wrapper.innerHTML = '';
+    wrapper.appendChild(popUp.render());
+    document.body.appendChild(wrapper);
+};
+
+export const closePopUp = () => {
+    const popUpWrap = document.querySelector('.pop-up');
+    if (!popUpWrap) {
+        return;
+    }
+    popUpWrap.remove();
+};
+
+export const processResponse = (response: XMLHttpRequest) => {
+    const responseText = JSON.parse(response.response);
+    if (response.status !== 200) {
+        const { reason } = responseText;
+        console.warn(`Oops, something went wrong: ${reason}`);
+        alert(`Oops, something went wrong: ${reason}`);
+        return false;
+    }
+    return responseText;
 };
