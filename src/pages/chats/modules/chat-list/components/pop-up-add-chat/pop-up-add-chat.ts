@@ -1,8 +1,8 @@
-import Block from '~/src/utils/block';
-import Form from '~/src/components/form';
-import ButtonIcon from '~/src/components/button-icon';
-import Button from '~/src/components/button';
-import InputWLabel from '~/src/components/input-w-label';
+import Block from '@utils/block';
+import Form from '@components/form';
+import ButtonIcon from '@components/button-icon';
+import Button from '@components/button';
+import InputWLabel from '@components/input-w-label';
 import template from './pop-up-add-chat.hbs';
 
 export default class PopUpAddChat extends Block {

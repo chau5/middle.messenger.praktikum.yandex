@@ -12,7 +12,8 @@
         "strictNullChecks": true,
         "esModuleInterop": true,
         "paths": {
-            "~*": ["./*"]
+            "~*": ["./*"],
+            "@*": ["./src/*"]
         }
     }
 }

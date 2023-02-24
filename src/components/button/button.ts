@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { ButtonProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { ButtonProps } from '@utils/prop-types';
 import template from './button.hbs';
 
 export default class Button extends Block {

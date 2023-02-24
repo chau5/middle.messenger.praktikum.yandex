@@ -1,5 +1,5 @@
-import store from '~/src/utils/store';
-import { ChatsController } from '~/src/controllers/chats-controller';
+import store from '@utils/store';
+import { ChatsController } from '@controllers/chats-controller';
 
 export class WS {
     static basePath = 'wss://ya-praktikum.tech/ws/chats';

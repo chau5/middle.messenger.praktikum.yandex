@@ -1,14 +1,16 @@
 {
-    "roots": ["src"],
     "transform": {
         "^.+\\.ts?$": "ts-jest"
     },
     "moduleNameMapper": {
         "~/(.*)": "<rootDir>/src/",
+        "^@api(.*)$": "<rootDir>/src/api$1",
+        "^@components(.*)$": "<rootDir>/src/components$1",
+        "^@controllers(.*)$": "<rootDir>/src/controllers$1",
+        "^@pages(.*)$": "<rootDir>/src/pages$1",
+        "^@utils(.*)$": "<rootDir>/src/utils$1",
         "^.+\\.(css|less|hbs)$": "<rootDir>/src/utils/assetMock.ts"
     },
-    "modulePathIgnorePatterns": ["index.ts"],
     "moduleFileExtensions": ["ts", "js"],
-    "transformIgnorePatterns": ["node_modules/"],
-    "testPathIgnorePatterns": ["<rootDir>/src/index.ts"]
+    "transformIgnorePatterns": ["node_modules/"]
 }

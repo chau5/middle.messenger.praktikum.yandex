@@ -1,4 +1,4 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 import template from './page-500.hbs';
 
 export default class Page500 extends Block {

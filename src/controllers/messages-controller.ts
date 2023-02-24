@@ -1,8 +1,8 @@
 import WS from '../utils/ws';
 import { ChatsAPI } from '../api/chats-api';
-import store from '~/src/utils/store';
-import { ChatApiProps } from '~/src/utils/prop-types';
-import { processResponse } from '~/src/utils/helpers';
+import store from '@utils/store';
+import { ChatApiProps } from '@utils/prop-types';
+import { processResponse } from '@utils/helpers';
 
 export class MessagesController {
     #chatsApi = new ChatsAPI();

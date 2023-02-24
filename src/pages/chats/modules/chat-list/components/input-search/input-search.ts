@@ -1,4 +1,4 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 import template from './input-search.hbs';
 
 export default class InputSearch extends Block {

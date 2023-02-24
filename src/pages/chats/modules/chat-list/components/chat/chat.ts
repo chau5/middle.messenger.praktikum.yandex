@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { ChatProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { ChatProps } from '@utils/prop-types';
 import template from './chat.hbs';
 import './chat.css';
 

@@ -1,16 +1,16 @@
-import Block from '~/src/utils/block';
-import Form from '~/src/components/form';
-import Avatar from '~/src/components/avatar';
-import ButtonIcon from '~/src/components/button-icon';
-import Button from '~/src/components/button';
-import InputWLabel from '~/src/components/input-w-label';
+import Block from '@utils/block';
+import Form from '@components/form';
+import Avatar from '@components/avatar';
+import ButtonIcon from '@components/button-icon';
+import Button from '@components/button';
+import InputWLabel from '@components/input-w-label';
 import FormAvatar from './modules/form-avatar';
 import PopUpPassword from './components/pop-up-password';
 import router from '~/src/index';
-import validator from '~/src/utils/validator';
-import { AuthController } from '~/src/controllers/auth-controller';
-import store, { StoreEvents } from '~/src/utils/store';
-import { appendPopUp } from '~/src/utils/helpers';
+import validator from '@utils/validator';
+import { AuthController } from '@controllers/auth-controller';
+import store, { StoreEvents } from '@utils/store';
+import { appendPopUp } from '@utils/helpers';
 import template from './account.hbs';
 
 export default class PageAccount extends Block {
@@ -248,6 +248,7 @@ export default class PageAccount extends Block {
                         async click(e) {
                             e.preventDefault();
                             await auth.logout();
+                            router.load('');
                         },
                     },
                 }),

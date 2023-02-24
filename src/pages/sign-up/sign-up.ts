@@ -1,7 +1,7 @@
-import Block from '~/src/utils/block';
-import Button from '~/src/components/button';
-import Form from '~/src/components/form';
-import InputWLabel from '~/src/components/input-w-label';
+import Block from '@utils/block';
+import Button from '@components/button';
+import Form from '@components/form';
+import InputWLabel from '@components/input-w-label';
 import router from '~/src/index';
 import template from './sign-up.hbs';
 

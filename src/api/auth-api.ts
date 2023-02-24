@@ -1,6 +1,6 @@
 import HTTP from '../utils/http';
 import BaseAPI from './base-api';
-import { UserSignInProps, UserSignUpProps } from '~/src/utils/prop-types';
+import { UserSignInProps, UserSignUpProps } from '@utils/prop-types';
 
 const authAPIBase = new HTTP();
 

@@ -1,8 +1,8 @@
-import Block from '~/src/utils/block';
-import ButtonIcon from '~/src/components/button-icon';
+import Block from '@utils/block';
+import ButtonIcon from '@components/button-icon';
 import PopUpChatActions from '../pop-up-chat-actions';
-import { HeaderProps } from '~/src/utils/prop-types';
-import { appendPopUp } from '~/src/utils/helpers';
+import { HeaderProps } from '@utils/prop-types';
+import { appendPopUp } from '@utils/helpers';
 import template from './header.hbs';
 
 export default class Header extends Block {

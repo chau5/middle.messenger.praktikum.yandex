@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { AvatarProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { AvatarProps } from '@utils/prop-types';
 import template from './avatar.hbs';
 
 export default class Avatar extends Block {

@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { MessageStickerProps, StickersProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { MessageStickerProps, StickersProps } from '@utils/prop-types';
 import template from './message-sticker.hbs';
 import * as classes from './message-sticker.module.css';
 import smile from '~/static/stickers/smile.png';

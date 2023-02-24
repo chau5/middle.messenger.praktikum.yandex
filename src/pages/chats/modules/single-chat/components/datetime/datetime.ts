@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { DatetimeProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { DatetimeProps } from '@utils/prop-types';
 import template from './datetime.hbs';
 
 export default class Datetime extends Block {

@@ -1,9 +1,9 @@
-import Block from '~/src/utils/block';
-import ButtonIcon from '~/src/components/button-icon';
-import Button from '~/src/components/button';
-import InputWLabel from '~/src/components/input-w-label';
-import { ChatsController } from '~/src/controllers/chats-controller';
-import { closePopUp } from '~/src/utils/helpers';
+import Block from '@utils/block';
+import ButtonIcon from '@components/button-icon';
+import Button from '@components/button';
+import InputWLabel from '@components/input-w-label';
+import { ChatsController } from '@controllers/chats-controller';
+import { closePopUp } from '@utils/helpers';
 import template from './pop-up-chat-actions.hbs';
 
 export default class PopUpChatActions extends Block {

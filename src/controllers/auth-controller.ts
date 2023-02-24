@@ -1,8 +1,7 @@
 import { AuthAPI } from '../api/auth-api';
 import { ChatsController } from './chats-controller';
-import { UserSignInProps, UserSignUpProps } from '~/src/utils/prop-types';
-import store from '~/src/utils/store';
-import router from '~/src/index';
+import { UserSignInProps, UserSignUpProps } from '@utils/prop-types';
+import store from '@utils/store';
 
 export class AuthController {
     #api = new AuthAPI();
@@ -21,7 +20,6 @@ export class AuthController {
             await this.getUser();
             const chats = new ChatsController();
             await chats.request();
-            router.load('messenger');
         } catch (e: any) {
             console.error(e.message);
         }
@@ -41,7 +39,6 @@ export class AuthController {
             await this.getUser();
             const chats = new ChatsController();
             await chats.request();
-            router.load('messenger');
         } catch (e: any) {
             alert(`Oops, something went wrong: ${e.message}`);
             console.error(e.message);
@@ -74,7 +71,6 @@ export class AuthController {
         try {
             await this.#api.logout();
             store.set('user', null);
-            router.load('');
         } catch (e: any) {
             alert(`Oops, something went wrong: ${e.message}`);
             console.error(e.message);

@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { MessageImageProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { MessageImageProps } from '@utils/prop-types';
 import template from './message-image.hbs';
 import * as classes from './message-image.module.css';
 

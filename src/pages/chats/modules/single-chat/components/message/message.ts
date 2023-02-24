@@ -1,5 +1,5 @@
-import Block from '~/src/utils/block';
-import { MessageProps } from '~/src/utils/prop-types';
+import Block from '@utils/block';
+import { MessageProps } from '@utils/prop-types';
 import template from './message.hbs';
 
 export default class Message extends Block {

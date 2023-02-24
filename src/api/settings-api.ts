@@ -1,6 +1,6 @@
 import HTTP from '../utils/http';
 import BaseAPI from './base-api';
-import { UserProps } from '~/src/utils/prop-types';
+import { UserProps } from '@utils/prop-types';
 
 const settingsAPIBase = new HTTP();
 

@@ -1,4 +1,4 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 import template from './empty.hbs';
 
 export default class Empty extends Block {

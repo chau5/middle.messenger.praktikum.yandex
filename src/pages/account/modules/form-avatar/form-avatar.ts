@@ -1,7 +1,7 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 import ButtonAvatar from './components/button-avatar';
-import { FormProps } from '~/src/utils/prop-types';
-import { SettingsController } from '~/src/controllers/settings-controller';
+import { FormProps } from '@utils/prop-types';
+import { SettingsController } from '@controllers/settings-controller';
 
 import template from './form-avatar.hbs';
 

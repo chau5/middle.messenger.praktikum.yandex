@@ -1,12 +1,12 @@
-import Avatar from '~/src/components/avatar';
+import Avatar from '@components/avatar';
 import Header from './components/header';
 import Message from './components/message';
 import FormMessage from './modules/form-message';
 import Empty from './components/empty';
-import store, { StoreEvents } from '~/src/utils/store';
-import Block from '~/src/utils/block';
-import { getDatetime, getTimestamp } from '~/src/utils/helpers';
-import { MessageApiProps } from '~/src/utils/prop-types';
+import store, { StoreEvents } from '@utils/store';
+import Block from '@utils/block';
+import { getDatetime, getTimestamp } from '@utils/helpers';
+import { MessageApiProps } from '@utils/prop-types';
 import template from './single-chat.hbs';
 import './single-chat.css';
 

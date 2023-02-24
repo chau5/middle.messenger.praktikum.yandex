@@ -1,14 +1,14 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 import Chat from './components/chat';
-import Avatar from '~/src/components/avatar';
-import ButtonIcon from '~/src/components/button-icon';
+import Avatar from '@components/avatar';
+import ButtonIcon from '@components/button-icon';
 import PopUpAddChat from './components/pop-up-add-chat';
 import router from '~/src/index';
 import template from './chat-list.hbs';
-import { ChatApiProps } from '~/src/utils/prop-types';
-import store, { StoreEvents } from '~/src/utils/store';
-import { getChatDetails, appendPopUp } from '~/src/utils/helpers';
-import { MessagesController } from '~/src/controllers/messages-controller';
+import { ChatApiProps } from '@utils/prop-types';
+import store, { StoreEvents } from '@utils/store';
+import { getChatDetails, appendPopUp } from '@utils/helpers';
+import { MessagesController } from '@controllers/messages-controller';
 import './chat-list.css';
 
 export default class ChatList extends Block {

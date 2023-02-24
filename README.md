@@ -2,16 +2,28 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/14597e20-a13a-4e12-9baa-9de5a05bd954/deploy-status)](https://app.netlify.com/sites/middle-messenger-chausme/deploys)
 
-[Messenger app](https://middle-messenger-chausme.netlify.app) built on top of [existing API](https://ya-praktikum.tech/api/v2/swagger) as per [Figma mockups](https://www.figma.com/file/sBhmIq6yUZIqBLoANYJkTh/Middle-Front-end-Chat-App)
+Messenger app built on top of [existing API](https://ya-praktikum.tech/api/v2/swagger) as per [Figma mockups](https://www.figma.com/file/sBhmIq6yUZIqBLoANYJkTh/Middle-Front-end-Chat-App)
+
+## Demo
+
+-   [Render + Webpack](https://middle-messenger.onrender.com)
+-   [Netlify + Parcel](https://middle-messenger-chausme.netlify.app) (discontinued)
 
 ## Usage
 
--   `npm run dev` - start Parcel dev server at `http://localhost:1234`
--   `npm build` - create Parcel build at `./dist`
--   `npm run start` - create Parcel build and start Express server at `http://localhost:3000`
+-   `npm run dev` - start dev server at `http://localhost:3000`
+-   `npm run build` - create build at `./dist`
+-   `npm run start` - create build and start Express server at `http://localhost:3000`
+-   `npm run serve` - start Express server at `http://localhost:3000` with an existing build
 -   `npm run tswatch` - start TypeScript compiler with `--watch` parameter
--   `npm run eslint` - run ESLint with `--quite` parameter
--   `npm run stylelint` - run Stylelint
+-   `npm run lint` - run ESLint with `--quite` parameter and Stylelint
+-   `npm run lint:scripts` - run ESLint with `--quite` parameter
+-   `npm run slint:styles` - run Stylelint
+-   `npm test` - run basic tests
+
+## Sprint 4
+
+### Pull request - TBC
 
 ## Sprint 3
 

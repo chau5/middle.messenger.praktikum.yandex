@@ -1,9 +1,10 @@
-import Block from '~/src/utils/block';
-import { FormProps, UserProps, UserSignInProps, UserSignUpProps } from '~/src/utils/prop-types';
-import { validateForm, validatePassword } from '~/src/utils/validator';
-import { AuthController } from '~/src/controllers/auth-controller';
-import { ChatsController } from '~/src/controllers/chats-controller';
-import { SettingsController } from '~/src/controllers/settings-controller';
+import Block from '@utils/block';
+import { FormProps, UserProps, UserSignInProps, UserSignUpProps } from '@utils/prop-types';
+import { validateForm, validatePassword } from '@utils/validator';
+import { AuthController } from '@controllers/auth-controller';
+import { ChatsController } from '@controllers/chats-controller';
+import { SettingsController } from '@controllers/settings-controller';
+import router from '~/src/index';
 
 import template from './form.hbs';
 
@@ -24,6 +25,7 @@ export default class Form extends Block {
                     const formProps = Object.fromEntries(formData);
                     if (props.id === 'form-sign-in') {
                         await auth.signin(formProps as UserSignInProps);
+                        router.load('messenger');
                     } else if (props.id === 'form-sign-up') {
                         if (!validatePassword(e.target)) {
                             alert(
@@ -32,6 +34,7 @@ export default class Form extends Block {
                             return;
                         }
                         await auth.signup(formProps as UserSignUpProps);
+                        router.load('messenger');
                     } else if (props.id === 'account') {
                         await settings.update(formProps as UserProps);
                     } else if (props.id === 'form-add-chat') {
@@ -59,6 +62,7 @@ export default class Form extends Block {
                         await auth.logout();
                         const popUp = document.querySelector('.pop-up');
                         popUp?.remove();
+                        router.load('messenger');
                     }
                 } catch (error: any) {
                     alert(`Oops, something went wrong: ${error.message}`);

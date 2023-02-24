@@ -1,4 +1,4 @@
-import { ChatApiProps, ChatDetailsProps } from '~/src/utils/prop-types';
+import { ChatApiProps, ChatDetailsProps } from '@utils/prop-types';
 import Block from './block';
 import store from './store';
 

@@ -1,7 +1,7 @@
 import { SettingsAPI } from '../api/settings-api';
-import { UserProps } from '~/src/utils/prop-types';
-import { processResponse } from '~/src/utils/helpers';
-import store from '~/src/utils/store';
+import { UserProps } from '@utils/prop-types';
+import { processResponse } from '@utils/helpers';
+import store from '@utils/store';
 
 export class SettingsController {
     #api = new SettingsAPI();

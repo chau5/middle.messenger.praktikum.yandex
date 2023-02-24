@@ -1,9 +1,9 @@
-import Block from '~/src/utils/block';
-import ButtonIcon from '~/src/components/button-icon';
+import Block from '@utils/block';
+import ButtonIcon from '@components/button-icon';
 import InputMessage from './components/input-message';
-import { FormProps } from '~/src/utils/prop-types';
-import { validateForm } from '~/src/utils/validator';
-import { MessagesController } from '~/src/controllers/messages-controller';
+import { FormProps } from '@utils/prop-types';
+import { validateForm } from '@utils/validator';
+import { MessagesController } from '@controllers/messages-controller';
 import template from './form-message.hbs';
 
 export default class FormMessage extends Block {

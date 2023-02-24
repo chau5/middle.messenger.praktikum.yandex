@@ -1,4 +1,4 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 import ChatList from './modules/chat-list';
 import SingleChat from './modules/single-chat';
 import template from './chats.hbs';

@@ -1,4 +1,4 @@
-import Block from '~/src/utils/block';
+import Block from '@utils/block';
 
 export default class BlankPage extends Block {
     constructor() {

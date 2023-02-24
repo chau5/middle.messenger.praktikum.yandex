@@ -1,6 +1,6 @@
 import { ChatsAPI } from '../api/chats-api';
-import store from '~/src/utils/store';
-import { processResponse } from '~/src/utils/helpers';
+import store from '@utils/store';
+import { processResponse } from '@utils/helpers';
 
 export class ChatsController {
     #api = new ChatsAPI();
