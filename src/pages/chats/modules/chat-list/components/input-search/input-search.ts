@@ -1,5 +1,4 @@
 import Block from '~/src/utils/block';
-import * as classes from './input-search.module.css';
 import template from './input-search.hbs';
 
 export default class InputSearch extends Block {
@@ -17,7 +16,7 @@ export default class InputSearch extends Block {
             'window',
             'sm',
             'bg-gray-light',
-            classes['input-search']
+            'input-search'
         );
     }
 

@@ -1,7 +1,0 @@
-.input-search {
-    &::before {
-        background-image: url("~/static/icons/search.svg");
-        background-repeat: no-repeat;
-        background-position: 10px 10px;
-    }
-}

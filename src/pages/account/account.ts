@@ -12,7 +12,6 @@ import { AuthController } from '~/src/controllers/auth-controller';
 import store, { StoreEvents } from '~/src/utils/store';
 import { appendPopUp } from '~/src/utils/helpers';
 import template from './account.hbs';
-import * as classes from './account.module.css';
 
 export default class PageAccount extends Block {
     static resourcesBase = `${process.env.API_BASE_URL}/resources`;
@@ -263,7 +262,6 @@ export default class PageAccount extends Block {
 
         return this.compile(template, {
             ...this.props,
-            classes,
         });
     }
 }

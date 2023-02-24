@@ -243,6 +243,12 @@ h2 {
 
     &.input-search {
         padding-left: 30px;
+
+        &::before {
+            background-image: url("~/static/icons/search.svg");
+            background-repeat: no-repeat;
+            background-position: 10px 10px;
+        }
     }
 
     &.button-icon {
@@ -329,6 +335,11 @@ h2 {
     &.auth {
         padding: 60px 125px 20px;
     }
+}
+
+.page.chats {
+    width: 100%;
+    height: calc(100vh - 70px - 100px);
 }
 
 .input {
@@ -729,4 +740,26 @@ h2 {
             z-index: 3;
         }
     }
+}
+
+.button-back {
+    z-index: 2;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+}
+
+.datetime {
+    bottom: -28px;
+    right: -6px;
+}
+
+.message-own {
+    align-self: flex-end;
+}
+
+.input-label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
 }
